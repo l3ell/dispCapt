@@ -1,0 +1,22 @@
+version: '3'
+services:
+  # サービス名≒コンテナ名
+  tesseract:
+    image: tesseractshadow/tesseract4re
+    
+    # 自動起動になるらしい
+    # restart: always
+    
+    # 入出力となるディレクトリを設定する
+    volumes:
+      - ./input:/usr/src/app/input
+      - ./output:/usr/src/app/output
+    
+    # -l は言語設定。日本語を利用する設定にしている。
+    # -psm は画像読み取りの設定。Automatic page segmentation with OSD.(Orientation and script detection)
+    # -oem はOCRエンジンのモード。データファイルに応じて利用可能なエンジンが使用される3(デフォルト)を設定 
+    command: tesseract -l jpn --psm 1 --oem 3 /usr/src/app/input/test.png /usr/src/app/output/read
+    # command: tesseract -l eng --psm 1 --oem 3 /usr/src/app/input/test.png /usr/src/app/output/read
+    
+    # 標準入出力先となるTerminalを用意する
+    # tty: true
